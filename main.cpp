@@ -4,7 +4,7 @@
 #include "ArgumentManager.h"
 using namespace std;
 
-int max(int a, int b) {
+int find_max(int a, int b) {
     if (a < b)
         return b;
     else
@@ -56,7 +56,7 @@ public:
                     t = rightLeft(t);
             }
         }
-        t->height = max(height(t->left), height(t->right)) + 1;
+        t->height = find_max(height(t->left), height(t->right)) + 1;
         return t;
     }
 
@@ -64,8 +64,8 @@ public:
         node* u = t->left;
         t->left = u->right;
         u->right = t;
-        t->height = max(height(t->left), height(t->right)) + 1;
-        u->height = max(height(u->left), height(u->right)) + 1;
+        t->height = find_max(height(t->left), height(t->right)) + 1;
+        u->height = find_max(height(u->left), height(u->right)) + 1;
         return u;
     }
 
@@ -73,8 +73,8 @@ public:
         node* u = t->right;
         t->right = u->left;
         u->left = t;
-        t->height = max(height(t->right), height(t->left)) + 1;
-        u->height = max(height(u->right), height(u->left)) + 1;
+        t->height = find_max(height(t->right), height(t->left)) + 1;
+        u->height = find_max(height(u->right), height(u->left)) + 1;
         return u;
     }
 
@@ -98,24 +98,26 @@ public:
     int bFactor(node* cu) {
         return (height(cu->left) - height(cu->right));
     }
-    void levelOrder(ofstream &out, node* n){
-      if(n != nullptr){
-        queue<node*> q;
-        q.push(n);
-        while(!q.empty()){
-          int levelSize = q.size();
-          for(int i = 0; i < levelSize; i++){
-            node* cu = q.front();
-            q.pop();
-            out << cu->data << " ";
-            if(cu->left != nullptr)
-              q.push(cu->left);
-            if(cu->right != nullptr)
-              q.push(cu->right);
-          }
+    void levelOrder(ofstream &out, node* my_node){
+      if(my_node == nullptr)
+        return;      
+      queue<node*> q;
+      q.push(my_node);//enqueue
+      while(q.empty()==false){
+        int size = q.size();
+        for(int i = 0; i < size; i++){
+          node* temp = q.front();
+          q.pop();
+          //cout << temp->data << " ";
+          out << temp->data << " ";
+          if(temp->left != NULL)//left child
+            q.push(temp->left);
+          if(temp->right != NULL)//right child
+            q.push(temp->right);
         }
       }
     }
+    
 };
 
 int main(int argc, char *argv[]) {
