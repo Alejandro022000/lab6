@@ -108,12 +108,23 @@ public:
         for(int i = 0; i < size; i++){
           node* temp = q.front();
           q.pop();
+          if(temp==root){
           //cout << temp->data << " ";
           out << temp->data << " ";
           if(temp->left != NULL)//left child
             q.push(temp->left);
           if(temp->right != NULL)//right child
             q.push(temp->right);
+          }
+          else{
+            out << " " << temp->data;
+            if(temp->left != nullptr){
+                q.push(temp->left);
+            }
+            if(temp->right != nullptr){
+                q.push(temp->right);
+            }
+          }
         }
       }
     }
