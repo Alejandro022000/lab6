@@ -5,10 +5,10 @@
 using namespace std;
 
 int max(int a, int b) {
-    if (a > b)
-        return a;
-    else
+    if (a < b)
         return b;
+    else
+        return a;
 }
 
 struct node {
@@ -98,7 +98,7 @@ public:
     int bFactor(node* cu) {
         return (height(cu->left) - height(cu->right));
     }
-    void levelOrder(node* n, ofstream &out){
+    void levelOrder(ofstream &out, node* n){
       if(n != nullptr){
         queue<node*> q;
         q.push(n);
@@ -121,21 +121,23 @@ public:
 int main(int argc, char *argv[]) {
   
   ArgumentManager am(argc, argv);
-  ifstream input(am.get("input"));
+  ifstream in(am.get("input"));
   ofstream out(am.get("output"));
   /*
   ifstream input("input1.txt");
   ofstream out("output.txt");
-*/
-  avlTree tree;
-  int numOfNodes, val;
-  input >> numOfNodes;
+  */
+  int num,count;
+  in >> count;
+  avlTree new_tree;   
 
-  for(int i = 0; i < numOfNodes; i++){
-    input >> val;
-    tree.add(val);
+  while (count>0){
+    in >> num;
+    new_tree.add(num);
+    count--;
   }
-  tree.levelOrder(tree.getRoot(), out);
+
+  new_tree.levelOrder(out, new_tree.getRoot());
   
   return 0;
 }
